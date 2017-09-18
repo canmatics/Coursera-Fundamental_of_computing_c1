@@ -1,0 +1,62 @@
+#http://www.codeskulptor.org/#user43_hdhhv5xlC5_0.py
+#Stopwatch the game
+#try to stop the watch when the tenths = 0
+
+
+
+#import modules 
+import simplegui
+
+count = 0 
+user_score = 0
+total_tries = 0
+#define event helper functions
+
+#tick funtion called every 100ms, update global count
+def tick():
+    global count
+    count += 1
+
+def format_time():      
+    
+    
+    mins = count // 600
+    mils = count % 10
+    secs = (count // 10) % 60
+
+    second = (secs % 60)
+    
+    if (secs >= 10):
+        return str(mins) + ":" + str(secs) + ":" + str(mils)
+    else:
+        return str(mins) + ":" + "0" + str(secs) + ":" + str(mils)
+    
+#draw handler to draw time in format A:BC.D
+def draw_text(canvas):
+    canvas.draw_text(format_time(), (90, 150), 30, 'Red')
+    canvas.draw_text(str(user_score) +'/'+ str(total_tries), (240, 150), 30, 'Red')
+     
+def start():
+    timer.start()
+    
+def stop():
+    global user_score, total_tries
+    
+    if  count % 10 == 0 and count != 0:
+        user_score += 1
+        total_tries += 1
+    elif count !=0:
+        total_tries += 1 
+    
+#create frame
+f = simplegui.create_frame("Stopwatch the game!", 300, 300)
+
+
+#register event handlers
+timer = simplegui.create_timer(100, tick)
+f.set_draw_handler(draw_text)
+f.add_button('Start', start)
+f.add_button('Stop', stop)
+#strat frame 
+f.start()
+
