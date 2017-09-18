@@ -1,0 +1,95 @@
+#http://www.codeskulptor.org/#user43_Poev2BQ01E_2.py
+
+
+# input will come from buttons and an input field
+# all output for the game will be printed in the console
+
+import simplegui
+import random
+
+
+guess_left = 0 
+num_range = 100
+won = False 
+
+# helper function to start and restart the game
+
+def new_game():
+    # initialize global variables used in your code here
+    global guess_left, comp_pick
+    
+    comp_pick = random.randrange(0,num_range)
+    
+    if num_range == 100:
+        guess_left = 7
+    elif num_range == 1000:
+        guess_left = 10
+        
+    print "New game! The number is between 0 and", num_range
+    
+    
+# define event handlers for control panel
+
+def range100():
+    # button that changes the range to [0,100) and starts a new game 
+    global num_range
+    num_range = 100
+    #start new game with new range
+    new_game()
+    
+
+def range1000():
+    global num_range
+    num_range = 1000
+    #start new game with new range
+    new_game()
+    
+def input_guess(guess):
+    global guess_left, won
+    
+    user_pick = int(guess)
+    
+   
+    print "You picked:", user_pick
+    guess_left = guess_left - 1
+    print "Guesses left is:\n", guess_left
+    
+    
+    if user_pick == comp_pick:
+        won = True
+    elif user_pick > comp_pick:
+        result = "Lower!\n"
+    elif user_pick < comp_pick:
+        result = "Higher!\n"
+              
+        
+    if won == True:
+        print "Congratulations!\n"
+        new_game()
+    elif guess_left == 0:
+        print "Sorry, no more tries left!\n\n"
+        new_game()
+    else:
+        print result
+        
+
+    
+# create frame
+
+f = simplegui.create_frame("Guess the number!", 200, 200)
+
+
+# register event handlers for control elements and start frame
+f.add_button("Random 0-100", range100, 200)
+f.add_button("Random 0-1000", range1000, 200)
+f.add_input("Enter", input_guess, 70)
+f.add_button("New Game", new_game, 70)
+
+
+# call new_game 
+new_game()
+
+
+# always remember to check your completed program against the grading rubric
+
+
